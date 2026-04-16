@@ -16,5 +16,17 @@ A CDK bootstrapped AWS account.
 (https://docs.aws.amazon.com/cdk/latest/guide/bootstrapping.html)
 # Sufficient AWS Lambda Concurrent executions limit
 
-Please use AWS Service Quotas to verify AWS Lambda Concurrent executions Applied quota value in your account is greater or equal to the AWS default quota value (which is 1000). Click this link to check it in your AWS Console. If Applied quota value is less than 1000, please use Request quota increase button to make a request to increase it to at least 1000 before deploying the solution. For more details, please refer to (https://docs.aws.amazon.com/AWS Lambda Developer Guide.)
+Please use AWS Service Quotas to verify AWS Lambda Concurrent executions Applied quota value in your account is greater or equal to the AWS default quota value (which is 1000). Click this link to check it in your AWS Console. If Applied quota value is less than 1000, please use Request quota increase button to make a request to increase it to at least 1000 before deploying the solution. 
+# Tools
+* The latest version of the AWS CLI, installed and configured.
+(https://aws.amazon.com/cli/ .)
+
+node.js version 18.19.
+
+(https://docs.npmjs.com/getting-started)
+Below are the example commands for installing nvm and node 18, please make sure those commands fit your build environment before using them.
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash
+exec $SHELL -l
+nvm install 18.19
+
 
