@@ -32,5 +32,112 @@ nvm install 18.19
   npm install --global yarn
 * Python 3.12.2
   We recommend creating a python virtual env using pipenv to avoid version conflicts
-  Below are the example commands for installing python 3.12 on Amazon Linux 2 and configure the virtual env, please make sure those commands fit your build           environment before using them.
+  Below are the example commands for installing python 3.12 on Amazon Linux 2 and configure thevirtual   env, please make sure those commands fit your build environment before using them.
+# Docker Desktop (>= v20.10)
+  (https://www.docker.com/get-started/)
+Note regarding AWS CDK version: We recommend running all cdk <cmd> related tasks via yarn cdk <cmd> to ensure exact version parity. If you choose to run globally installed cdk command, ensure you have a compatible version of (AWS CDK) installed globally.
+# Build and run the unit tests
+1.Clone the solution source code from its GitHub repository. git clone https://github.com/aws-solutions/automated-data-analytics-on-aws<br>
+2.Open the terminal and navigate to the source folder created in step 1. cd automated-data-analytics-on-aws/source<br>
+3.Run the following command.<br>
+  chmod +x ./run-all-tests.sh
+  ./run-all-tests.sh
+The /source/run-all-tests.sh 
+script is the centralized script to install all dependencies, build the solution from source code and execute all unit tests.
+The build process including downloading dependencies takes about 60 minutes the first time.
+# File structure
+After you have successfully cloned the repository into your local development environment, you will see the following file structure in your editor.
+##|- .github/ ...                       - resources for open-source contributions.
+|- source/                            - solution's source code
+  |- @types                           - type utilities
+  |- cypress                          - cypress tests
+  |- images                           - images files for the documentation
+  |- packages                         - multiple packages of solution source code, including unit tests
+  |- scripts                          - helper scripts
+  |- header.txt                       - license header
+  |- lerna.json                       - configuration file for lerna
+  |- packages.json                    - package file for solution root package
+  |- run-all-tests.sh                 - runs all tests within the /source folder
+  |- yarn-audit.js                    - helper script for yarn audit
+  |- yarn.lock                        - yarn lockfile
+|- .gitignore
+|- CHANGELOG.md                       - changelog file to track changes between versions
+|- CODE_OF_CONDUCT.md                 - code of conduct for open source contribution
+|- CONTRIBUTING.md                    - detailed information about open source contribution
+|- LICENSE.txt                        - Apache 2.0 license.
+|- NOTICE.txt                         - Copyrights for Automated Data Analytics on AWS solution
+|- THIRDPARTY_LICENSE.txt             - Copyrights licenses for third party software that was used in this solution
+|- README.md                          - this file
 
+# Deploying the solution
+Before you begin, ensure that:
+
+The solution has been built and all unit tests have passed as described in the Build and run unit tests section.
+You have configured the computer used to deploy the solution with the correct AWS credentials to access the AWS account that Automated Data Analytics on AWS solution will be deployed to.
+Set the deployment region export AWS_REGION=<region-id>. For a list of supported AWS region, refer to https://docs.aws.amazon.com/solutions/latest/automated-data-analytics-on-aws/design-considerations.html
+Make sure the current directory is in automated-data-analytics-on-aws/source
+Deploy the Automated Data Analytics on AWS solution:
+To deploy the Automated Data Analytics on AWS solution with its default security settings, use the command below: yarn deploy-solution --parameters adminEmail="<Your email address>" --parameters adminPhoneNumber="<Your mobile number for MFA>"
+If the deployment is for evaluation purposes and does not contain any sensitive data, the default Multi-factor Authentication(MFA) feature can be set to optional to simplify the process. If this is preferred, use the following command for deployment: yarn deploy-solution --parameters adminEmail="<Your email address>" --parameters adminMFA='OPTIONAL' --parameters advancedSecurityMode='OFF'
+The deployment may take up to 60 minutes to complete. During deployment the temporary password for the root administrator will be sent via email to the specified adminEmail. The email address and temporary password received in email can be used to log into the Automated Data Analytics on AWS solution for the initial setup.
+
+After the solution has been deployed, the CDK returns the following information. Using this information, follow the steps to access the Automated Data Analytics on AWS solution.
+
+Note: To view the information returned by CDK from the AWS CloudFormation Console, navigate to the Ada stack and select the Outputs section.
+
+Outputs:
+Ada.AthenaProxyApiUrl = example.cloudfront.net:443
+Ada.BaseApiUrl = https://example.execute-api.ap-southeast-2.amazonaws.com/prod/
+Ada.CognitoUserPoolId = ap-southeast-2_Example
+Ada.ExportNamespaceGlobalUUID = example
+Ada.RetainedResourcesExport = ["arn:aws:kms:ap-southeast-2:123456789012:key/5dad9516-0007-4993-a613-example","arn:aws:kms:ap-southeast-2:123456789012:key/21d45985-6c92-41e9-a762-example","arn:aws:s3:::ada-dataproductservicestack752cb9-databucket-hash","arn:aws:s3:::ada-dataproductservicestack752-scriptsbucket-hash","arn:aws:s3:::ada-dataproductservicestack-fileuploadbucket-hash"]
+Ada.UserPoolClientId = example
+Ada.WebsiteUrl = https://example1234.cloudfront.net/
+AthenaProxyApiUrl: The URL for connecting Automated Data Analytics on AWS with Tableau / PowerBI via JDBC/ODBC.
+BasedApiUrl: Rest API URL.
+CognitoUserPoolId: Cognito User Pool id.
+ExportNamespaceGlobalUUID: A global unique identifier specific to this deployment.
+RetainedResourcesExport: A list of AWS Resources ARNs for which the resources will be retained if this solution is uninstalled (tore down) from the web console with retaining data or tore down from AWS CloudFormation Console.
+UserPoolClientId: Cognito user pool app client id
+WebsiteUrl: Automated Data Analytics on AWS web UI URL
+# Accessing the solution web UI
+1.Open WebsiteUrl in your browser. We recommend using Chrome. You will be redirected to the sign in     page that requires username and password.<br>
+2.Sign in with the email address specified during deployment as username and use the temporary          password received via email after deployment. Note that the sender of the temporary password email    is no-reply@verificationemail.com.<br>
+3.During the sign in, you are required to set a new password when signing in for the first time. If     the solution is deployed with MFA enabled, the MFA code is sent to the mobile number specified as     AdminPhone as a text message and you will need the MFA code for signing in.<br>
+4.After signing in, you can view the Automated Data Analytics on AWS web UI. The current user is the    root administrator user who has the highest level of permission for Automated Data Analytics on       AWS. We recommend you keep these credentials secure.<br>
+We recommend using an external OpenID Connect or SAML 2.0 compatible identity provider to manage your users who need access to Automated Data Analytics on AWS. If there is an existing enterprise Identity Provider, you can integrate it with Automated Data Analytics on AWS. The root administrator user can set it up by accessing Admin -> Identity Provider in the Automated Data Analytics on AWS Web UI.
+
+For more information on how to set up your Identity Provider, refer to the implementation guide
+# Uninstalling the solution
+You can uninstall the solution either from the Automated Data Analytics on AWS web UI or by directly deleting the stacks from the AWS CloudFormation console.
+
+To uninstall the solution from the Automated Data Analytics on AWS web UI:
+
+1.Open Automated Data Analytics on AWS web UI and login with the root administrator user details.<br>
+2.On the left navigation panel, click Admin -> TearDown<br>
+Note: Using the Teardown page, you can permanently remove the Automated Data Analytics on AWS solution from your account. The Teardown option is only available for users with root_admin access.
+
+3.From the Teardown page, choose one of these following actions:<br>
+Delete solution – This will uninstall all the resources associated with the solution but retain the imported data.
+Delete solution and data – This will uninstall all the resources associated with the solution and destroy the imported data.
+4.Follow the link displayed on the web UI to AWS CloudFormation Console to monitor all Automated Data Analytics on AWS stacks to be deleted.<br>
+Note: If you chose to retain data, the data buckets and KMS keys for the data buckets will be retained.
+
+To uninstall the solution from AWS CloudFormation console:
+
+1.Go to the AWS CloudFormation console, and on the Stacks page, filter by stack name ada-dp- to get list of dynamic infrastructure created for each Data Product.<br>
+2.Navigate to your Ada stack, and check its Output section, note down the value of the key RetainedResourcesExport and copy it to a text file to keep. These resources are retained after the main Automated Data Analytics on AWS stack is deleted.<br>
+3.In AWS CloudFormation console page, select the Ada stack and select Delete. Wait until all Automated Data Analytics on AWS nested stacks and main stack are deleted completely.<br>
+4.The data buckets and the KMS keys to encrypted data in them are retained (as listed out in RetainedResourcesExport). You can migrate data out of these buckets.<br>
+5.After the migration is completed, navigate to the AWS S3 console, choose each bucket, empty it and delete it for all the buckets that were listed in the RetainedResourcesExport file.<br>
+6.After deleting the buckets, navigate to AWS KMS Console and delete the two KMS keys that were listed in the RetainedResourcesExport file.<br>
+
+# Collection of operational metrics
+This solution collects anonymized operational metrics to help AWS improve the quality of features of the solution. For more information, including how to disable this capability, refer to the (implementation guide.)
+
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+
+Licensed under the Apache License Version 2.0 (the "License"). You may not use this file except in compliance with the License. A copy of the License is located at
+
+http://www.apache.org/licenses/
+or in the "license" file accompanying this file. This file is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions and limitations under the License.
