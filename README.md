@@ -3,3 +3,7 @@ The Automated Data Analytics on AWS solution provides an end-to-end data platfor
 
 # Architecture overview
 <img width="1376" height="792" alt="solution_architecture_diagram" src="https://github.com/user-attachments/assets/bd60766a-1d67-4e62-99b7-b4286b773921" />
+The Automated Data Analytics on AWS solution automates the building of data pipelines that are optimized for the size, frequency of update, and type of data. These data pipelines handle the data ingestion, transformations, and queries.
+
+The Automated Data Analytics on AWS solution creates and integrates a combination of AWS services required to perform these tasks, abstracted through a user interface. These services include AWS Glue crawlers, jobs, workflows and triggers, along with S3 buckets, IAM integration, and other services. Additionally, the solution automatically detects and redacts personally identifiable information (PII) with granular security and governance controls.
+
