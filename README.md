@@ -8,6 +8,6 @@ The Automated Data Analytics on AWS solution automates the building of data pipe
 The Automated Data Analytics on AWS solution creates and integrates a combination of AWS services required to perform these tasks, abstracted through a user interface. These services include AWS Glue crawlers, jobs, workflows and triggers, along with S3 buckets, IAM integration, and other services. Additionally, the solution automatically detects and redacts personally identifiable information (PII) with granular security and governance controls.
 
 # Prerequisites
-Build environment specifications
+# Build environment specifications
 To build and deploy this solution, we recommend using Ubuntu with minimum 4 cores CPU, 16GB RAM. Mac(Intel) or other Linux distributions are also supported.
 The computer used to build the solution must be able to access the internet
