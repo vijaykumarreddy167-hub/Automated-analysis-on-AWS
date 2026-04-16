@@ -11,3 +11,5 @@ The Automated Data Analytics on AWS solution creates and integrates a combinatio
 # Build environment specifications
 To build and deploy this solution, we recommend using Ubuntu with minimum 4 cores CPU, 16GB RAM. Mac(Intel) or other Linux distributions are also supported.
 The computer used to build the solution must be able to access the internet
+# AWS Account
+A CDK bootstrapped AWS account.
