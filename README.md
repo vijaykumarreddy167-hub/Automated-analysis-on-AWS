@@ -14,4 +14,7 @@ The computer used to build the solution must be able to access the internet
 # AWS Account
 A CDK bootstrapped AWS account.
 (https://docs.aws.amazon.com/cdk/latest/guide/bootstrapping.html)
+# Sufficient AWS Lambda Concurrent executions limit
+
+Please use AWS Service Quotas to verify AWS Lambda Concurrent executions Applied quota value in your account is greater or equal to the AWS default quota value (which is 1000). Click this link to check it in your AWS Console. If Applied quota value is less than 1000, please use Request quota increase button to make a request to increase it to at least 1000 before deploying the solution. For more details, please refer to (AWS Lambda Developer Guide.)
 
