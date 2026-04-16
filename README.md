@@ -13,3 +13,5 @@ To build and deploy this solution, we recommend using Ubuntu with minimum 4 core
 The computer used to build the solution must be able to access the internet
 # AWS Account
 A CDK bootstrapped AWS account.
+(https://docs.aws.amazon.com/cdk/latest/guide/bootstrapping.html)
+
